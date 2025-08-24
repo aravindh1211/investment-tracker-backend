@@ -33,6 +33,7 @@ export const holdingIdSchema = z.object({
   id: z.string().uuid('Invalid holding ID format'),
 });
 
+// Type exports - these should match the validation schemas
 export type CreateHoldingRequest = z.infer<typeof createHoldingSchema>;
 export type UpdateHoldingRequest = z.infer<typeof updateHoldingSchema>;
 export type MonthlyGrowthRequest = z.infer<typeof monthlyGrowthSchema>;
