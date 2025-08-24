@@ -4,6 +4,7 @@
   "description": "Investment tracker backend with Google Sheets integration",
   "main": "dist/index.js",
   "scripts": {
+    "prebuild": "npm install",
     "build": "tsc",
     "start": "node dist/index.js",
     "dev": "tsx watch src/index.ts",
