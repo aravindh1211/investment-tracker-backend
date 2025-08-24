@@ -79,39 +79,39 @@ export class SheetsService {
     }
   }
 
-  /**
-   * Add a new holding
-   */
-  async addHolding(holding: Omit<Holding, 'id' | 'updated_at'>): Promise<Holding> {
-    try {
-      const id = this.generateUUID();
-      const updatedAt = new Date().toISOString();
-      const value = holding.qty * holding.current_price;
-      
-      const newHolding: Holding = {
-        ...holding,
-        id,
-        value,
-        updated_at: updatedAt,
-      };
+/**
+ * Add a new holding
+ */
+async addHolding(holding: Omit<Holding, 'id' | 'updated_at' | 'value'>): Promise<Holding> {
+  try {
+    const id = this.generateUUID();
+    const updatedAt = new Date().toISOString();
+    const value = holding.qty * holding.current_price;
+    
+    const newHolding: Holding = {
+      ...holding,
+      id,
+      value,
+      updated_at: updatedAt,
+    };
 
-      const rowValues = this.holdingToRowValues(newHolding);
+    const rowValues = this.holdingToRowValues(newHolding);
 
-      await this.sheets.spreadsheets.values.append({
-        spreadsheetId: this.spreadsheetId,
-        range: 'MF_STOCKS',
-        valueInputOption: 'USER_ENTERED',
-        requestBody: {
-          values: [rowValues],
-        },
-      });
+    await this.sheets.spreadsheets.values.append({
+      spreadsheetId: this.spreadsheetId,
+      range: 'MF_STOCKS',
+      valueInputOption: 'USER_ENTERED',
+      requestBody: {
+        values: [rowValues],
+      },
+    });
 
-      return newHolding;
-    } catch (error) {
-      console.error('Error adding holding:', error);
-      throw error;
-    }
+    return newHolding;
+  } catch (error) {
+    console.error('Error adding holding:', error);
+    throw error;
   }
+}
 
   /**
    * Update an existing holding by ID
@@ -450,4 +450,5 @@ export class SheetsService {
       return 0;
     }
   }
+
 }
